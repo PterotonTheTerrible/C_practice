@@ -3,34 +3,32 @@
 
 // TODO: Figure out why parameter is not being accepted by Add_Node() and Create_List()
 
+unsigned short int userid = 1;
 
 struct LL_Node {
-    char *fname, *lname, *address;
-    unsigned short int *uid;
+    char fname[10], lname[10], address[20];
+    unsigned short int uid;
 
-    struct LL_Node* next;
+    struct LL_Node *next;
 };
 
 struct LL_Node Create_List(){
     struct LL_Node *head_node = NULL;
     head_node = (struct LL_Node*)malloc(sizeof(struct LL_Node));
-    int fn, ln, addr;
+    char fn[10], ln[10], addr[20];
     //Fill the head node
     printf("Enter First Name\n");
-    while ((fn = getchar()) != "\n") {
-        head_node->fname += fn;
-    }
+    scanf("%s", fn);
+    fflush(stdin);
     printf("Enter Last Name\n");
-    while ((ln = getchar()) != "\n") {
-        head_node->lname += ln;
-    }
+    scanf("%s", ln);
+    fflush(stdin);
     printf("Enter Address\n");
-    while ((addr = getchar()) != "\n") {
-        head_node->address += addr;
-    }
-    head_node->uid = 1;
+    scanf("%s", addr);
+    fflush(stdin);
+    head_node->uid = userid;
     head_node->next = NULL;
-    
+    userid++;
     return *head_node;
 }
 
@@ -42,39 +40,37 @@ void Add_Node(struct LL_Node *head){
         }
         head = head->next;
     }
-    int fn, ln, addr;
     //Create the newest node in the list
     struct LL_Node* new_node = NULL;
     new_node = (struct LL_Node*)malloc(sizeof(struct LL_Node)); 
          
+    char fn[10], ln[10], addr[20];
     //Fill in the new node
     printf("Enter First Name\n");
-    while ((fn = getchar()) != "\n") {
-        new_node->fname += fn;
-    }
+    scanf("%s", fn);
+    fflush(stdin);
     printf("Enter Last Name\n");
-    while ((ln = getchar()) != "\n") {
-       new_node->lname += fn;
-    }   
+    scanf("%s", ln);
+    fflush(stdin);
     printf("Enter Address\n");
-    while ((addr = getchar()) != "\n") {
-       new_node->address += addr;
-    }
-    new_node->uid += 1;
+    fflush(stdin);
+    scanf("%s", addr);
+    new_node->uid = userid;
     head->next = new_node;
+    userid++;
 
-    printf("New node contains the following information:\nFirst Name: %s\nLast Name: %s\nAddress: %s\nNodeId: %hn\n", new_node->fname, new_node->lname, new_node->address, new_node->uid);
+    printf("New node contains the following information:\nFirst Name: %s\nLast Name: %s\nAddress: %s\nNodeId: %hu\n", new_node->fname, new_node->lname, new_node->address, new_node->uid);
 }
 
 
-void Print_List(struct LL_Node* head) {
+void Print_List(struct LL_Node *head) {
     int check;
     check = 1;
     while (check == 1) {
         printf("%s\t", head->fname);
         printf("%s\t", head->lname);
         printf("%s\t", head->address);
-        printf("%hn\n", head->uid);
+        printf("%hu\n", head->uid);
        
         if (head->next == NULL) {
             check = 0;
@@ -83,27 +79,38 @@ void Print_List(struct LL_Node* head) {
     }
 }
 main() {
+    int selection = 0; 
+    struct LL_Node *head;
+     
+    while ( selection == 0 ) {
     printf(" 1 - Create Linked List\n");
     printf(" 2 - Add Node\n");
     printf(" 3 - Delete Node\n");
     printf(" 4 - Print Linked List\n");
     printf(" 5 - Delete Linked List\n");
-    int selection; 
-    struct LL_Node head;
-    while ((selection = getchar()) != "\0") {
+    scanf("%d", &selection);
         if (selection == 1) {
-            head = Create_List();
+            *head = Create_List();
+            selection = 0;
         }
-        else if (selection == 2) {
-            Add_Node(&head);
+        else if (selection ==2 ) {
+            Add_Node(head);
+            selection = 0;
         }
         else if (selection == 3) {
             printf("Not yet implemented\n");
+            selection = 0;
         }
         else if (selection == 4) {
-            Print_List(&head);
+            Print_List(head);
+            selection = 0;
         }
+        else {
+            break;
+        }
+        fflush(stdin);
     }
+}
 /* 
     struct LL_Node* first = NULL;
     struct LL_Node* second = NULL;
@@ -130,4 +137,4 @@ main() {
     Print_List(first);
 */
 
-}
+
