@@ -19,6 +19,10 @@ struct LL_Node* Create_List(){
     char fn[20], ln[20], addr[60], user_input[128];
     //Fill the head node
     printf("Enter First Name, Last Name, and Address with only spaces in between\n");
+    // extra fgets to process out the LF from user input
+    // in the Options selection process
+    // TODO: make it less janky of a process
+    fgets(user_input, 128, stdin);
     if (fgets(user_input, 128, stdin) != NULL ){
     sscanf(user_input, "%s %s %s", fn, ln, addr);
 }
@@ -26,6 +30,7 @@ struct LL_Node* Create_List(){
     strncpy(head_node->lname, ln, sizeof(ln));
     strncpy(head_node->address, addr, sizeof(addr));
     head_node->uid = userid;
+    userid++;
 /*
     printf("Enter First Name\n");
     sscanf("%s", fn);
@@ -50,26 +55,25 @@ void Add_Node(struct LL_Node *head){
         if (head->next == NULL) {
             iterator = 0;
         }
+        Print_List(head);
         head = head->next;
     }
     //Create the newest node in the list
     struct LL_Node* new_node = NULL;
     new_node = (struct LL_Node*)malloc(sizeof(struct LL_Node)); 
          
-    char *fn, *ln, *addr;
-    fn = (char *)malloc(10);
-    ln = (char *)malloc(10);
-    addr = (char *)malloc(20);
+    char fn[20], ln[20], addr[60], user_input[128];
     //Fill in the new node
-    printf("Enter First Name\n");
-    //sscanf("%s", fn);
-    fflush(stdin);
-    printf("Enter Last Name\n");
-    //sscanf("%s", ln);
-    fflush(stdin);
-    printf("Enter Address\n");
-    fflush(stdin);
-    //sscanf("%s", addr);
+    printf("Enter First Name, Last Name, and Address with only spaces in between\n");
+    fgets(user_input, 128, stdin);
+    if (fgets(user_input, 128, stdin) != NULL ){
+    sscanf(user_input, "%s %s %s", fn, ln, addr);
+}
+    strncpy(new_node->fname, fn, sizeof(fn));
+    strncpy(new_node->lname, ln, sizeof(ln));
+    strncpy(new_node->address, addr, sizeof(addr));
+
+    new_node->next = NULL;
     new_node->uid = userid;
     head->next = new_node;
     userid++;
@@ -94,10 +98,11 @@ void Print_List(struct LL_Node *head) {
     }
 }
 main() {
+    char choice[1];
     char selection = 0; 
     struct LL_Node *head;
     head = (struct LL_Node*)malloc(sizeof(struct LL_Node)); 
-    
+     
 
     while ( 1 ) {
     printf("=========================\n");
@@ -107,24 +112,26 @@ main() {
     printf(" 4 - Print Linked List\n");
     printf(" 5 - Delete Linked List\n");
     printf("=========================\n");
-    selection = getchar();
-    printf("%d\n", selection);
-        if (selection == '1') {
+    choice[0] = getchar();
+    sscanf(choice, "%hhd", &selection);
+    //printf("%d\n", selection);
+
+        if (selection == 1) {
             head = Create_List();
         }
-        else if (selection == '2' ) {
+        else if (selection == 2 ) {
             Add_Node(head);
         }
-        else if (selection == '3') {
+        else if (selection == 3) {
             printf("Not yet implemented\n");
         }
-        else if (selection == '4') {
+        else if (selection == 4) {
             Print_List(head);
         }
-        else if (selection == '5') {
+        else if (selection == 5) {
             printf("Not yet implemented\n");
         }
-        else if (selection == '6') {
+        else if (selection == 6) {
             printf("Exiting Program...\n");
             break;
         }
