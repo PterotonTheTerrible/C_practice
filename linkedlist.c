@@ -55,7 +55,6 @@ void Add_Node(struct LL_Node *head){
         if (head->next == NULL) {
             iterator = 0;
         }
-        Print_List(head);
         head = head->next;
     }
     //Create the newest node in the list
