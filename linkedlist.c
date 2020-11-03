@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 unsigned short int userid = 1;
 
 struct LL_Node {
@@ -30,6 +31,7 @@ struct LL_Node* Create_List(){
     head_node->uid = userid;
     userid++;
 
+    printf("New node contains the following information:\nFirst Name: %s\nLast Name: %s\nAddress: %s\nNodeId: %hu\n",head_node->fname, head_node->lname, head_node->address, head_node->uid);
 return head_node;
 
 }
@@ -124,8 +126,8 @@ void Print_List(struct LL_Node *head) {
 }
 main() {
     char choice[1];
-    char selection = 0; 
     struct LL_Node *head;
+    char selection;
     head = (struct LL_Node*)malloc(sizeof(struct LL_Node)); 
      
 
